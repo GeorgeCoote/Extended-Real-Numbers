@@ -1,0 +1,202 @@
+\input{preamble.tex} 
+\newcommand{\exa}{+_{\overline \R}}
+\newcommand{\exm}{\times_{\overline \R}}
+\tit{Introduction to \(\overline \R\)}
+\begin{document}
+\title{Introduction to \(\overline \R\)}
+\maketitle
+\section{Introduction}
+There's somewhat of an elephant in the room when it comes to mathematical analysis -- and that elephant is infinity. Early on we are told to restrain ourselves to understanding \(\infty\) as no more than an abstract symbol, and not something that can be likened to a real number. We usually give up with this when we start studying measure theory, and it becomes convenient to write things like \(\int f(x) dx = \infty\), and talk about regions having infinite volume.\\
+
+The purpose of this document, which in all likelihood only I will see, is to give a ``proper'' treatment of the extended real numbers. (which is often inferred or handwave) I will take for granted knowledge of topology. The proofs will all be fairly basic, but interesting to explicitly outline since this is often not done in analysis texts. I will take \(\N\) to exclude \(0\), and \(\sequence {x_n}\) to denote a sequence indexed on \(\N\).\\
+
+We start just with the symbols ``\(\infty\)'' and ``\(-\infty\)'', which we will call \emph{positive infinity} and \emph{negative infinity} respectively. These can represent whatever sets you like, provided they do not lie in \(\R\).\footnote{I am not aware of a standard, but in ZF and ZFC, the set \(\R \times \set \R\) cannot possibly lie in \(\R\), so can be used. If we had \(\R \in \R \times \set \R\), then \(\R = (x, \R)\) for some \(x \in \R\). This would imply \(\R \in \set \R \in (x, \R) = \R\), using the Kuratowski convention for ordered pairs. Applying \textbf{Foundation} to \(\set {\R, \set \R}\), one of the \(\in\) inclusions will be contradicted, so we have \(\R \not \in \R \times \set \R\). In general \(x \not \in x \times \set x\) for any set \(x\).} We will write \(\overline \R = \R \cup \set {-\infty, \infty}\), which we will call the \textit{extended real number line}. We will call \(x \in \overline \R\) ``finite'' if \(x \not \in \set {-\infty, \infty}\), and infinite if \(x \in \set {-\infty, \infty}\).
+
+\section{Arithmetic} 
+
+We define arithmetic on the extended real numbers in a very natural way. 
+
+\begin{definition}[Addition]
+For each \(x \in \R\), we define \(x +_{\overline \R} \infty = \infty +_{\overline \R} x = \infty\) and \(x +_{\overline \R} (-\infty) = (-\infty) +_{\overline \R} x = -\infty\). We also define \(\infty +_{\overline \R} \infty = \infty\). 
+\end{definition}
+
+From now on we will write \(+\) instead of \(+_{\overline \R}\). Nothing bizarre so far, though I will now make a potentially controversial choice with our definition of multiplication. 
+
+\begin{definition}[Multiplication]
+For each \(x \in \R\), we define: 
+
+\[x \times_{\overline \R} \infty = \infty \times_{\overline \R} x = \begin{cases}0 & x = 0 \\ \infty & x > 0 \\ -\infty & x < 0\end{cases}\]
+
+and:
+
+\[(-\infty) \times_{\overline \R} x = x \times_{\overline \R} (-\infty) = \begin{cases}0 & x = 0 \\ -\infty & x > 0 \\ \infty & x < 0\end{cases}\]
+\end{definition}
+
+From now on we will write \(\times\) instead of \(\times_{\overline \R}\). The aforementioned ``controversial choice'' would probably be \(0 \times \infty = 0\). Essentially we want lines (or more obtusely ``rectangles with infinite width and zero height'') such as \(\set 0 \times \R\), or \(\R \times \set 0\) to have measure zero. When we are constructing a notion of volume for \(\R^2\), we would rather like the volume of a Cartesian product \(A \times B\) to simply be the ``length'' of \(A\) times the ``length'' of \(B\), consistent with ordinary bounded rectangles. For this we will want to write or imply that \(0 \times \infty = 0\), since the length of \(\set 0\) will be \(0\) under the canonical measure for \(\R^2\), and the length of \(\R\) will be \(\infty\).\\
+
+Subtraction can now be defined simply by \(x -_{\overline \R} y = x +_{\overline \R} (-y)\). We will largely avoid division, but sometimes we may want to think that \(1/\infty = 0\) -- in certain embedding results we want to think of \(\set {p, q} = \set {1, \infty}\) as satisfying \(1/p + 1/q = 1\).\\
+
+Notice that notably we leave \(\infty - \infty\) undefined. We will see why later, but we clearly don't want to set \(\infty - \infty = 0\), otherwise we could write, say \(0 = \infty - \infty = (1 + \infty) - \infty = 1\), proving \(1 = 0\)! In a less obviously abusive framing, say we have two extended real numbers \(\alpha\) and \(\beta\) and we find that \(\alpha = \alpha + \beta\). We \emph{cannot} conclude that \(\beta = 0\), since we may have \(\alpha = \infty\), in which case \(\beta\) could be any extended real number except \(-\infty\). This gets even funkier when we look at orders on \(\overline \R\), as we will see.
+
+\section{Ordering}
+We will now extend our canonical order on \(\R\) to \(\overline \R\). This will be consistent with our intuition that \(\infty\) should be larger than any real number, and \(-\infty\) should be ``more negative'' than any real number. We define \(<_{\overline \R}\) by \(x <_{\overline \R} \infty\) if \(x \ne \infty\) and \(-\infty <_{\overline \R} x\) if \(x \ne -\infty\), and \(x <_{\overline \R} y\) if \(x, y \in \R\) and \(x < y\) in the usual order. We will now write \(<_{\overline \R}\) as simply \(<\), as we did with addition and multiplication.\\
+
+The nice thing now is that \((\overline \R, <_{\overline \R})\) is that every sequence has a convergent subsequence, and that \((\overline \R, <_{\overline \R})\) is a ``complete lattice'' -- every set has an infimum and supremum. We will now prove this. 
+\begin{theorem}
+Every set in \(\overline \R\) has an infimum and supremum.\footnote{Actually, we only need to show that every set in \(\overline \R\) has an infimum, since we can then just take the infimum of the set of upper bounds, but I do both for slickness.}
+\end{theorem}
+
+\begin{proof}
+Let \(T \subseteq \overline \R\). We deal first with the case \(T = \emptyset\). Note that \(-\infty\) is an upper bound for \(\emptyset\), and \(\infty\) is a lower bound for \(\emptyset\). No extended real number is less than \(-\infty\) or greater than \(\infty\), so \(-\infty\) is the least upper bound for \(\emptyset\) and \(\infty\) is the greatest lower bound. So we have \(\inf \emptyset = \infty\) and \(\sup \emptyset = -\infty\). (weird, right?) Notably, this is the only case where \(\inf T > \sup T\), if \(T \ne \emptyset\) we have \(\inf T \le \sup T\), with equality holding only for singletons.\\
+
+Now let \(T \subseteq \overline \R\) be non--empty. Note that \(\infty\) is an upper bound for \(T\). If \(\infty \in T\), then we must have \(\sup T = \infty\), since any ``interior'' upper/lower bounds are supremums/infimums. Suppose \(\infty \not \in T\). If \(T\) has a supremum in the usual order of \(\R\), great, it is also a supremum in the order of \(\overline \R\). If not, then for each \(M\) there exists \(t \in T\) with \(t > M\). So no real number can be an upper bound for \(T\), because it will be exceeded by some other element. So the only upper bound is \(\infty\), giving \(\sup T = \infty\).\\
+
+The case of the infimum is similar. Note that \(-\infty\) is always a lower bound for \(T\). So if \(-\infty \in T\), we have \(\inf T = -\infty\). If \(T\) has an infimum in the usual order of \(\R\), brilliant, we are again done. If not, then for every \(M\) there exists \(t \in T\) with \(t < M\). So no real number is a lower bound for \(T\), so the only lower bound is \(-\infty\), giving \(\inf T = -\infty\). 
+\end{proof}
+
+So we now formally have \(\sup (0, \infty) = \infty\) and \(\inf (-\infty, 0) = -\infty\), and so on. As a final note, we now need to be careful with inequalities. If we are talking about \(\alpha\) in the extended real numbers, we are no longer able to say \(\alpha < \alpha + 1\), since this is not true if \(\alpha\) is infinite, so often you will have to use non--strict inequalities throughout. (which is usually safer, even in the reals) This is somewhat reminscient of cardinal arithmetic, where we may have \(|X| = |X| + 1\) or \(|X| < |X| + 1\) when \(|X|\) is infinite. (see: \emph{Dedekind infinite})
+
+\section{Topology}
+Now that we have arithmetic and supremums/infimums set up solidly, we move onto the topology of \(\overline \R\). We define the \emph{standard topology} on \(\overline \R\) as the topology generated by the standard topology on \(\R\) together with the intervals \((a, \infty] = (a, \infty) \cup \set \infty\) and \([-\infty, b) = (-\infty, b) \cup \set {-\infty}\), which we consider neighbourhoods of \(\infty\) and \(-\infty\) respectively. A simple check reveals \(\overline \R\) is Hausdorff with this topology: 
+
+\begin{enumerate}
+    \item[(i)] \((x - 1/2, x + 1/2)\) and \((x + 1, \infty]\) separate \(x \in \R\) from \(\infty\),
+    \item[(ii)] \((x - 1/2, x + 1/2)\) and \([-\infty, x - 1)\) separate \(x \in \R\) from \(-\infty\),
+    \item[(iii)] \([-\infty, 0)\) and \((0, \infty]\) separate \(\infty\) from \(-\infty\).
+\end{enumerate}
+
+The separation of other points follows from the fact that \(\R\) is Hausdorff with the usual topology. This ensures that limits in \(\overline \R\) are unique, though we don't yet know how to calculate them. Our goal will now to be to first establish simple criteria for convergence in \(\overline \R\), and then to show that it is both compact and sequentially compact. 
+
+\begin{theorem}
+\(\overline \R\) is compact with its standard topology. 
+\end{theorem}
+
+\begin{proof}
+Let \(\mathcal C\) be an open cover for \(\overline \R\). Let \(U_\infty\) be a set in the cover that contains \(\infty\). We can pull from it an open subset \((M_2, \infty]\). Let \(U_{-\infty}\) be a set in the cover that contains \(-\infty\). We can pull from it an open subset \([-\infty, M_1)\).\\
+
+Now consider \(\mathcal C \cap [M_1, M_2] = \set {S \cap [M_1, M_2] : S \in \mathcal C}\). This is an open cover of \([M_1,M_2]\). From the compactness of \([M_1,M_2]\), we have a finite cover \(\set {S_1 \cap [M_1, M_2], \ldots, S_n \cap [M_1, M_2]}\) of \([M_1, M_2]\). Since \(\overline \R = [-\infty, M_1) \cup [M_1, M_2] \cup (M_2, \infty]\), \(\set {S_1, \ldots, S_n, U_\infty, U_{-\infty}}\) is then a subcover of \(\mathcal C\) of size \(n + 2 < \infty\). Since the cover \(\mathcal C\) was arbitrary we have that \(\overline \R\) is compact.  
+\end{proof}
+
+In light of this result, \(\overline \R\) can be called the \emph{two--point compactification} of \(\R\). (there are other constructions that only add one point) We now look at characterising convergence in \(\overline \R\). First, we verify that a sequence \(\sequence {x_n} \subset \R\) that converges to \(x\) in \(\R\) still converges to \(x\) in \(\overline \R\). We will frame this a bit more generally. 
+
+\begin{theorem}
+Let \(\sequence {x_n}\) be a sequence in \(\overline \R\) and let \(x \in \R\). Then we have \(x_n \to x\) in \(\overline \R\) if and only if: 
+
+\begin{enumerate}
+    \item[(i)] there exists \(N_1 \in \N\) such that for \(n \ge N_1\) we have \(x_n \in \R\),
+    \item[(ii)] for each \(\epsilon > 0\) there exists \(N_2 \in \N\) such that for \(n \ge \max \set {N_1, N_2}\) we have \(|x_n - x| < \epsilon\).
+\end{enumerate}
+\end{theorem}
+
+Evidently \((i)\) is satisfied for any real sequence, just taking \(N_1 = 1\), so if we can show this we have the desired consistency result. 
+
+\begin{proof}
+Suppose that \(x_n \to x\) in \(\overline \R\). Then for each \(\epsilon > 0\), there exists \(N_1 \in \N\) such that we have \(x_n \in (x - \epsilon, x + \epsilon) \subset \R\) for \(n \ge N_1\), since \((x - \epsilon, x + \epsilon)\) is an open neighbourhood of \(x\). Fixing \(\epsilon\), we see that \(x_n \in \R\) for \(n \ge N_1\). Now let \(\epsilon > 0\) be arbitrary, then we can select \(N_2 = N_2(\epsilon) \in \N\) such that \(x_n \in (x - \epsilon, x + \epsilon)\) for \(n \ge N_2\). That is, \(|x_n - x| < \epsilon\). This proves the ``only if'' direction.\\
+
+Now suppose that \((i)\) and \((ii)\) hold for a sequence \(\sequence {x_n}\). We aim to show that for each open neighbourhood of \(x\), \(U\), in \(\overline \R\), there exists \(N \in \N\) such that \(x_n \in U\) for \(n \ge N\). Fix an open neighbourhood of \(x\). We can pull out an open neighbourhood of \(x\) that has one of the forms \((a, b)\), \((M, \infty]\) or \([-\infty, m)\). Note that WLOG we can assume the form is \((a, b)\), by looking at \((x - \epsilon, x + \epsilon)\) for \(x\) sufficiently small. From \((ii)\) we can find \(N \in \N\) such that \(|x_n - x| < \epsilon\) for \(n \ge N\). In particular, \(x_n \in U\) for \(n \ge N\). This proves the ``if'' direction. 
+\end{proof}
+
+Now we have our sanity check out of the way, we can move to the more interesting matter of convergence to \(\pm \infty\), which will coincide with the typical definition of ``divergence to'' \(\pm \infty\).
+
+\begin{theorem}
+Let \(\sequence {x_n}\) be a sequence in \(\overline \R\). We have \(x_n \to \infty\) if and only if for each \(M > 0\) there exists \(N \in \N\) such that \(x_n > M\) for \(n \ge N\). 
+\end{theorem}
+
+\begin{proof}
+Suppose that \(x_n \to \infty\). Then \((M, \infty]\) is an open neighbourhood of \(\infty\), and so there exists \(N \in \N\) such that \(x_n \in (M, \infty]\) for \(n \ge N\). That is, \(x_n > M\).\\
+
+Now to the converse, fix an open neighbourhood \(U\) of \(\infty\). From this we can pull a subset \((M, \infty]\). We can find \(N \in \N\) such that \(x_n > M\) for all \(n \ge N\). In particular we have \(x_n \in U\) for \(n \ge N\). So \(x_n \to \infty\). 
+\end{proof}
+
+An almost identical procedure shows that:
+
+\begin{theorem}
+Let \(\sequence {x_n}\) be a sequence in \(\overline \R\). We have \(x_n \to -\infty\) if and only if for each \(M > 0\) there exists \(N \in \N\) such that \(x_n < -M\) for \(n \ge N\).
+\end{theorem}
+
+We can now show that \(\overline \R\) is sequentially compact. We will then go on to prove properties of the limit in \(\overline \R\). We first need a lemma. 
+
+\begin{lemma}
+A monotone sequence in \(\overline \R\) converges. 
+\end{lemma}
+
+\begin{proof}
+Let \(\sequence {x_n}\) be a monotone sequence in \(\overline \R\). First take \(\sequence {x_n}\) to be increasing. If \(\sup_n x_n < \infty\), then we know from real analysis that \(x_n \to \sup_n x_n\). Now suppose that \(\sup_n x_n = \infty\). Then for each \(k \in \N\) we can find some \(n_k\) such that \(x_{n_k} \ge k\). Without loss of generality, pick \(\sequence {n_k}\) to be increasing. Then, for each \(M > 0\) we have \(x_{n_k} \ge M\) for \(k \ge \floor M + 1\). So we have \(x_{n_k} \to \infty\).\\
+
+The case of decreasing sequences is very similar. If \(\infty > \inf_n x_n > -\infty\), (note that the infimum cannot be \(\infty\) since \(\set {x_n : n \in \N}\) is not empty) then we know that \(x_n \to \inf_n x_n\). Now suppose that \(\inf_n x_n = -\infty\). Then for each \(k \in \N\) we can find some \(n_k\) such that \(x_{n_k} \le -k\). Without loss of generality, pick \(\sequence {n_k}\) to be increasing. Then for each \(M > 0\) we have \(x_{n_k} \le -M\) for \(k \ge \floor M + 1\). So we have \(x_{n_k} \to -\infty\).
+\end{proof}
+
+To show that \(\overline \R\) is sequentially compact, it now suffices to show that every sequence in \(\overline \R\) has a monotone subsequence. 
+
+\begin{theorem}
+\label{thm:monotoneseq}
+Every sequence in \(\overline \R\) has a monotone subsequence. 
+\end{theorem}
+
+\begin{proof}
+Let \(\sequence {x_n}\) be a sequence in \(\overline \R\). If \(\sequence {x_n}\) is real--valued, we have the result for real analysis. So \(\sequence {x_n}\) takes infinite values. If \(\sequence {x_n}\) takes infinite values infinitely often, then either \(x_n = \infty\) or \(x_n = -\infty\), or both. Let \(M \in \set {\infty, -\infty}\) be an infinite value \(\sequence {x_n}\) takes infinitely often. Let \(\sequence {n_k}\) be the indices for which \(x_n = M\), sorted in increasing order. Then \(x_n \to M\). (constant sequences always converge)\\
+
+Now suppose that \(\sequence {x_n}\) takes infinite values only finitely many times. Let \(N\) be the largest index for which \(x_N \in \set {\infty, -\infty}\). Then the sequence \(\sequence {x_{n + N}}\) is a real--valued sequence, and so has a monotone subsequence, which is a monotone subsequence of the original sequence \(\sequence {x_n}\).
+\end{proof}
+
+Putting these two theorems together, we find: 
+
+\begin{theorem}
+\(\overline \R\) is sequentially compact.
+\end{theorem}
+
+We now look at some elementary properties of the limit in \(\overline \R\). 
+
+\begin{theorem}
+Let \(\sequence {x_n}, \sequence {y_n}\) be sequences such that \(x_n \le y_n\) for each \(n\). Then:
+
+\begin{enumerate}
+    \item[(i)] if \(x_n \to \infty\), we have \(y_n \to \infty\),
+    \item [(ii)] if \(y_n \to -\infty\) then \(x_n \to -\infty\).
+\end{enumerate}  
+\end{theorem}
+
+\begin{proof}
+First, (\(i\)). Let \(M > 0\). Pick \(N \in \N\) such that \(x_n > M\) for all \(n \ge N\). Then \(y_n > M\) for all \(n \ge N\). Since \(M\) was arbitrary this shows \(y_n \to \infty\).\\
+
+Now, (\(ii\)). Let \(M > 0\). Pick \(N \in \N\) such that \(y_n < -M\) for all \(n \ge N\). Then \(x_n < -M\) for all \(n \ge N\). Since \(M\) was arbitrary this shows \(x_n \to -\infty\).
+\end{proof}
+
+We can easily replace ``for each \(n\)'' with ``for all sufficiently large \(n\)'' just by truncating the sequence eg. as in Theorem~\ref{thm:monotoneseq}.\\
+
+Now, for arithmetic properties. 
+
+\begin{theorem}
+Let \(\sequence {x_n}\), \(\sequence {y_n}\) be sequences in \(\overline \R\) and \(\alpha \in \R\). Then: 
+
+\begin{enumerate}
+    \item[(i)] if \(\sequence {x_n}\) is bounded below and \(y_n \to \infty\) we have \(x_n + y_n \to \infty\),
+    \item[(ii)] if \(\sequence {x_n}\) is bounded above and \(y_n \to -\infty\) we have \(x_n + y_n \to -\infty\),
+    \item[(iii)] if \(x_n \to x \in \set {\infty, -\infty}\), we have \(\alpha x_n \to \sgn(\alpha) x\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+First, for (\(i\)). Let \(M > 0\). Pick \(c \in \R\) such that \(x_n \ge c\) for all \(n \in \N\). Let \(N \in \N\) be such that \(y_n \ge M - c\) for \(n \ge N\). Then we have \(x_n + y_n \ge M\) for \(n \ge N\), and since \(M\) was arbitrary we have \(x_n + y_n \to \infty\).\\
+
+Next to (\(ii\)). Let \(M > 0\) and pick \(C \in \R\) such that \(x_n \le C\) for all \(n \in \N\). Pick \(N \in \N\) such that \(y_n \le -M - c\) for \(n \ge N\). Then \(x_n + y_n \le -M\) for \(n \ge N\). Since \(M\) was arbitrary we have \(x_n + y_n \to -\infty\).\\
+
+Finally, to (\(iii\)). There are several cases:
+
+\begin{enumerate}
+    \item[(1)] \(\alpha = 0\): We have \(\alpha x_n \equiv 0\), and so \(\alpha x_n \to 0 = 0 \times x\).
+    \item[(2a)] \(\alpha > 0\) and \(x = \infty\): Let \(M > 0\), then we can find \(N \in \N\) such that \(x_n > M/\alpha\) for \(n \ge N\), then \(\alpha x_n > M\) for \(n \ge N\). Since \(M\) is arbitrary we have \(\alpha x_n \to \infty = \sgn(\alpha) \infty\).
+    \item[(2b)] \(\alpha > 0\) and \(x = -\infty\): Let \(M > 0\), then we can find \(N \in \N\) such that \(x_n < -M/\alpha\) for \(n \ge N\), then \(\alpha x_n < -M\) for \(n \ge N\). Since \(M\) is arbitrary we have \(\alpha x_n \to -\infty = \sgn(\alpha) (-\infty)\).
+    \item[(3a)] \(\alpha < 0\) and \(x = \infty\): Let \(M > 0\), then \(M/(-\alpha) > 0\) and we can find \(N \in \N\) such that \(x_n > M/(-\alpha)\). Then \(\alpha x_n < -M\) for \(n \ge N\). Since \(M\) is arbitrary we have \(\alpha x_n \to -\infty = \sgn(\alpha) \infty\).
+    \item[(3b)] \(\alpha < 0\) and \(x = -\infty\): Let \(M > 0\), then \(M/(-\alpha) > 0\) and we can find \(N \in \N\) such that \(x_n < -M/(-\alpha) = M/\alpha\) for \(n \ge N\). Then \(\alpha x_n > M\) for \(n \ge N\). SInce \(M\) was arbitrary we have \(\alpha x_n \to \infty = \sgn(\alpha)(-\infty)\). 
+\end{enumerate}
+
+With that we are done.
+\end{proof}
+
+I've run out of stuff to say, so here's a concluding remark.
+
+\begin{remark}
+Note that it is \textbf{not true} in \(\overline \R\) that if \(x_n \to x\) and \(y_n \to y\), then \(x_n y_n \to x y\). For example, set \(x_n = 1/n\) and \(y_n = n\) for each \(n \in \N\). Then \(x_n \to 0\), \(y_n \to \infty\) but \(x_n y_n \equiv 1 \to 1 \ne 0 = 0 \times \infty\). We cannot let \(\alpha\) be infinite in (iii) either, take \(x_n = 1/n\) for each \(n \in \N\) and \(y_n = \infty\) for each \(n \in \N\). Then \(x_n y_n \equiv \infty \to \infty\), but \(x_n \to 0\) so the product of the limits is \(0\), not \(\infty\). So we do not have a rule of the form \(\alpha x_n \to \alpha x\) either when \(\alpha \in \set {\infty, -\infty}\).
+\end{remark}
+\end{document}

@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+
+%PACKAGES
+\usepackage{cancel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[colorlinks=true, linkcolor=red, citecolor=blue, urlcolor = red]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{xfrac}
+\usepackage{amscd} 
+\usepackage{esint}
+\usepackage{lipsum}
+
+%PAGE SETUP
+\usepackage[a4paper]{geometry}
+\geometry{includehead,includefoot,left=3cm,right=3cm,top=2cm,bottom=2cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{George Coote}
+\cfoot{\thepage}
+\setlength{\parindent}{0pt}
+
+\newcommand{\auth}[1]{\fancyhead[L]{#1}}
+\newcommand{\tit}[1]{\fancyhead[R]{#1}}
+
+%SYMBOLS
+\newcommand{\expect}[1]{\mathbf E \left[{#1}\right]}
+\newcommand{\norm}[1]{\left\lVert {#1} \right\rVert}
+\newcommand{\onorm}[1]{\norm {#1}_{\text{op}}}
+\newcommand{\abs}[1]{\left|{#1}\right|}
+\newcommand{\Id}[1]{\mathrm {Id}_{#1}}
+%\newcommand{\mnote}[1]{\textbf{[\MakeUppercase{#1}]}}, just use \footnote{}
+\newcommand{\sequence}[1]{\left\langle {#1} \right\rangle}
+\newcommand{\paren}[1]{\left({#1}\right)}
+\newcommand{\innerprod}[2]{\left\langle{#1, #2}\right\rangle}
+\newcommand{\stk}[2]{{#1} \atop {#2}}
+\newcommand{\set}[1]{\left\{{#1}\right\}}
+\newcommand{\floor}[1]{\lfloor {#1} \rfloor}
+%\newcommand{\ind}[1]{\chi_{\set {#1}}}
+\newcommand{\ceil}[1]{\lceil {#1} \rceil}
+%\newcommand{\rd}{\, \mathrm d}
+\newcommand{\Z}{\mathbf Z}
+\newcommand{\R}{\mathbf R}
+\newcommand{\C}{\mathbf C}
+\newcommand{\Q}{\mathbf Q}
+\newcommand{\N}{\mathbf N}
+\newcommand{\bbF}{\mathbb F}
+\newcommand{\bfF}{\mathbf F}
+\newcommand{\CA}{\mathcal A}
+\newcommand{\BB}{\mathcal B}
+\newcommand{\DD}{\mathcal D}
+\newcommand{\EE}{\mathcal E}
+\newcommand{\FF}{\mathcal F}
+\newcommand{\GG}{\mathcal G}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\LL}{\mathcal L}
+\newcommand{\TT}{\mathbf T}
+\newcommand{\pv}{\mathrm{p.v.}}
+\newcommand{\lloc}{L^1_{\mathrm{loc}}}
+\newcommand{\weak}{\rightharpoonup}
+\newcommand{\weaks}{\stackrel{\ast}{\rightharpoonup}}
+\newcommand{\asc}{\stackrel{\text{a.s.}}{\to}}
+\newcommand{\pcon}{\stackrel{p}{\to}}
+\newcommand{\dcon}{\stackrel{d}{\to}}
+\newcommand{\lpcon}[1]{\stackrel{\LL^{#1}}{\to}}
+\newcommand{\wcon}{\stackrel{w}{\to}} 
+\newcommand{\probspace}{(\Omega, \FF, \Pr)}
+\newcommand{\io}{\, \text{i.o.}}
+\newcommand{\prob}{\mathbf P}
+\AtBeginDocument{
+    \let\epsilon\varepsilon
+}
+
+%VARIOUS OPERATORS
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Rank}{Rank}
+\DeclareMathOperator{\Nullity}{Nullity}
+\DeclareMathOperator{\Div}{div}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Isom}{Isom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\SO}{SO}
+\DeclareMathOperator{\PO}{PO}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\Syl}{Syl}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\rang}{ran}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\spt}{spt}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\essinf}{ess\,inf}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\clin}{clin}
+\DeclareMathOperator{\conv}{conv}
+
+% ------------- THEOREM ENVIRONMENTS ------------- %
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem{axiom}{Axiom}[section]
+\renewcommand\qedsymbol{\(\blacksquare\)}
+
+% ------------- RedeclareMathOperator [1] ------------- %
+\makeatletter
+\newcommand\RedeclareMathOperator{%
+  \@ifstar{\def\rmo@s{m}\rmo@redeclare}{\def\rmo@s{o}\rmo@redeclare}%
+}
+\newcommand\rmo@redeclare[2]{%
+  \begingroup \escapechar\m@ne\xdef\@gtempa{{\string#1}}\endgroup
+  \expandafter\@ifundefined\@gtempa
+     {\@latex@error{\noexpand#1undefined}\@ehc}%
+     \relax
+  \expandafter\rmo@declmathop\rmo@s{#1}{#2}}
+\newcommand\rmo@declmathop[3]{%
+  \DeclareRobustCommand{#2}{\qopname\newmcodes@#1{#3}}%
+}
+\@onlypreamble\RedeclareMathOperator
+\makeatother
+
+\RedeclareMathOperator{\Re}{Re}
+\RedeclareMathOperator{\Im}{Im}
+
+% [2]
+
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+  }}
+
+% [1] by egreg. URL: https://tex.stackexchange.com/questions/175251/how-to-redefine-a-command-using-declaremathoperator
+% [2] by egreg. URL: https://tex.stackexchange.com/questions/22252/how-to-typeset-function-restrictions

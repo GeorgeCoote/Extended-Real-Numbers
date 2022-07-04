@@ -1,0 +1,159 @@
+\input{preamble.tex} 
+\newcommand{\exa}{+_{\overline \R}}
+\newcommand{\exm}{\times_{\overline \R}}
+\tit{Introduction to \(\overline \R\)}
+\begin{document}
+\section{Introduction}
+There's somewhat of an elephant in the room when it comes to mathematical analysis -- and that elephant is infinity. Early on we are told to restrain ourselves to understanding \(\infty\) as no more than an abstract symbol, and not something that can be likened to a real number. We usually give up with this when we start studying measure theory, and it becomes convenient to write things like \(\int f(x) dx = \infty\). The purpose of this document, which in all likelihood only I will see, is to give a ``proper'' treatment of the extended real numbers. (which is often inferred or handwave)
+
+
+
+\section{Introduction and Arithmetic} 
+
+
+We want to assign this space an arithmetic (what addition, subtraction, multiplication and division mean) and topological structure (which sequences are said to converge, which sets are said to be open) that extends that of \(\R\). We do this in a very natural way, without abbreviation for completeness. We will use the verbose \(\circ_{\overline \R}\) within definitions, but outside we will use the usual \(+\), \(-\), \(\times\), \(/\). 
+
+\begin{definition}[Addition on \(\overline \R\)]
+We define the partial map \(+_{\overline \R} : \paren {\overline \R}^2 \to \overline \R\) (which we write infix) by: 
+
+\begin{enumerate}
+    \item \(x \exa y = y \exa x = x + y\) if both \(x\) and \(y\) are real, 
+    \item \(\infty \exa x = x \exa \infty = \infty\) for any \(x \in \R\),
+    \item \(\infty \exa \infty = \infty\),
+    \item \(-\infty \exa x = x \exa \paren {-\infty} = -\infty\) for any \(x \in \R\),
+    \item \(-\infty \exa \paren {- \infty} = -\infty\),
+    \item we leave \(\infty + (-\infty)\) undefined.
+\end{enumerate}
+\end{definition}
+
+We will explain why it is convenient to leave \(\infty + (-\infty)\) undefined a bit later on. We define multiplication in the following way: 
+
+\begin{definition}[Multiplication on \(\overline \R\)]
+We define the map \(\exm : \paren {\overline \R}^2 \to \overline \R\) by: 
+
+\begin{enumerate}
+    \item \(x \exm y = y \exm x = x \times y\) if both \(x\) and \(y\) are real, 
+    \item \(\infty \exm \infty = \infty\),
+    \item \(\paren {-\infty} \exm \infty = \infty \exm \paren {-\infty} = -\infty\),
+    \item \(\paren {-\infty} \exm \paren {-\infty} = \infty\),
+    \item \(x \exm \paren {+\infty} = {+\infty} \exm x = \infty\) if \(x\) is a real number with \(x > 0\),
+    \item \(0 \exm \paren {+\infty} = \paren {+\infty} \exm 0 = 0\),
+    \item \(x \exm \paren {+\infty} = \paren {+\infty} \exm x = -\infty\) if \(x\) is a real number with \(x < 0\),
+    \item \(x \exm \paren {-\infty} = \paren {-\infty} \exm x = -\infty\) if \(x\) is a real number with \(x > 0\),
+    \item \(0 \exm \paren {-\infty} = \paren {-\infty} \exm 0 = 0\),
+    \item \(x \exm \paren {-\infty} = \paren{-\infty} \exm x = \infty\) if \(x\) is a real number with \(x < 0\).
+\end{enumerate}
+
+In particular, we have \((-1) \times (-\infty) = \infty\) and \((-1) \times \infty = -\infty\) as we expect, so we can write \(-x\) for \((-1) \times x\) without confusion.\\
+
+The only real ``controversial'' decision so far is \(0 \times (\pm \infty) = 0\). To understand this, think about volumes in \(\R^2\). We want the line \(R \times \set 0\) to have volume \(0\), but also want \(\mathrm{\vol}(I_1 \times I_2) = \mathrm{vol}(I_1)\mathrm{vol}(I_2)\) for each pair of intervals \((I_1, I_2)\), which requires us have \((+\infty) \times 0 = 0\). This breaks the multiplicativity of limits though, (consider the limit of \(n \times (1/n)\) as \(n \to \infty\)) and we will discuss this later.  
+\end{definition}
+
+Subtraction can be defined by combining multiplication and addition.
+
+\begin{definition}[Subtraction on \(\overline \R\)]
+We define the partial map \(-_{\overline \R} : {\overline \R}^2 \to \overline \R\) by: 
+
+\[x -_{\overline \R} y = x +_{\overline \R} \paren {-y}\]
+\end{definition}
+
+Division by \(\pm \infty\) appears markedly less than addition, multiplication and subtraction. Nonetheless -- we may want to read \(1/\infty\) as \(0\). For example, in Holder's inequality we ask that \(1/p + 1/q = 1\), and this usually includes \((p, q) = (1, \infty)\). We conclude by defining division: 
+
+\begin{definition}[Division on \(\overline \R\)]
+We define the partial map \(/_{\overline \R} : \paren {\overline \R}^2 \to \overline \R\) by: 
+
+\begin{enumerate}
+    \item \(x /_{\overline \R} y = x/y\) where \(x, y\) are real numbers with \(y \ne 0\),
+    \item \(x /_{\overline \R} \infty = 0\) for all real \(x\),
+    \item \(x /_{\overline \R} \paren {-\infty} = 0\) for all real \(x\), 
+    \item we leave \(x /_{\overline \R} y\) undefined if both \(x\) and \(y\) are in \(\set {+\infty, \infty}\), or \(y = 0\).
+\end{enumerate}
+\end{definition}
+
+We are now done with arithmetic. 
+
+\section{Ordering} 
+Consistent with our intuition, we want \(-\infty\) to be smaller than any real number, and \(+\infty\) to be larger than any real number. We define the ordering \(<_{\overline \R}\) by \(x <_{\overline \R} y\) if \(x\) and \(y\) are real numbers with \(x < y\), \(-\infty <_{\overline \R} x\) for each \(x \in \R \cup \set \infty\) and \(x <_{\overline \R} \infty\) for each \(x \in \R \cup \set {-\infty}\). We look at what this means for the supremum and infimum of subsets of \(\overline \R\). 
+
+\begin{theorem}
+Every non-empty \(S \subseteq \overline \R\) has a supremum and an infimum in \((\overline \R, \le)\). 
+\end{theorem}
+
+\begin{proof}
+We prove the case of the supremum, the infimum case is similar. Suppose that \(\infty \in S\). Since \(x \le \infty\) for all \(x \in \overline \R\), we then have \(\sup S = \infty\). Suppose that \(\infty \not \in S\). If \(S = \set {-\infty}\), then we clearly have \(\sup S = -\infty\). Suppose that \(S \ne \set {-\infty}\). Then \(S \setminus \set {-\infty}\) is a non-empty subset of \(\R\). If \(S \setminus \set {-\infty}\) is bounded above, then it has a supremum in \((\R, \le)\) from the continuum property, which is the same as the supremum of \(S\) in \((\overline \R, \le)\). If \(S \setminus \set {-\infty}\) is not bounded above we prove that \(\sup S = \infty\).\\
+
+Clearly we have \(x \le \infty\) for all \(x \in S\). Since \(S \setminus \set {-\infty}\) is not bounded above, there exists no real number \(M\) such that \(x \le M\) for all \(x \in S\). So there is no upper bound \(M\) for \(S\) with \(M < \infty\), so we have \(\sup S = \infty\). 
+\end{proof}
+
+\section{Convergence} 
+We are now ready to define a notion of convergence for sequences in \(\overline \R\). First, we define what it means for a sequence of extended real numbers to converge to a real number. 
+
+\begin{definition}[Convergence to a Real Number]
+We say that a sequence \(\sequence {x_n}\) in \(\overline \R\) converges to \(x \in \R\) if: 
+
+\begin{enumerate}
+    \item there exists \(M \in \N\) such that \(x_n \in \R\) for \(n \ge M\),
+    \item for each \(\epsilon > 0\), there exists \(N \in \N\) (with \(N \ge M\)) such that \(|x_n - x| < \epsilon\) for all \(n \ge N\). 
+\end{enumerate}
+\end{definition}
+
+This is not particularly interesting -- clearly if a sequence takes infinite values infinitely often it cannot be said to converge to a real number in any strong sense, so the condition \((1)\) is not too restrictive. Clearly this also coincides with our existing definition if \(\sequence {x_n}\) is a finite real sequence. What is interesting is infinite limits. We can in fact show that \(\overline \R\) is sequentially compact with the topology we will endow it. (for this reason, \(\overline \R\) is called the \textit{two-point compactification} of \(\R\))
+
+\begin{definition}[Convergence to \(\infty\)]
+We say that a sequence \(\sequence {x_n}\) in \(\overline \R\) \textit{converges to \(\infty\)} if for each real number \(M > 0\), there exists \(N \in \N\) such that \(x_n \ge M\) for \(n \ge N\). 
+\end{definition}
+
+As a sanity check, we can see that any sequence \(\sequence {x_n}\) that is ``eventually infinite'' (in the sense that there exists \(N \in \N\) such that \(x_n = \infty\) for all \(n \ge N\)) converges to \(\infty\). (since \(\infty \ge M\) for any \(M \in \R\)) We define convergence to \(-\infty\) in the obvious way: 
+
+\begin{definition}[Convergence to \(-\infty\)]
+We say that a sequence \(\sequence {x_n}\) in \(\overline \R\) \textit{converges to \(-\infty\)} if for each real number \(M > 0\), there exists \(N \in \N\) such that \(x_n \le -M\) for \(n \ge N\). 
+\end{definition}
+
+We can see that a sequence that is eventually \(-\infty\) also converges to \(-\infty\). With this definition, we have: 
+
+\begin{theorem}[Extended Monotone Convergence Theorem for \(\R\)]
+Let \(\sequence {x_n}\) be a monotone sequence in \(\overline \R\). Then \(\sequence {x_n}\) has a limit as a sequence in \(\overline \R\). 
+\end{theorem}
+
+\begin{proof}
+First suppose that \(x_n\) is finite for each \(n\). Suppose that \(\sequence {x_n}\) is increasing. If \(\sequence {x_n}\) is bounded, then from the Monotone Convergence Theorem for real sequences, we have that \(\sequence {x_n}\) converges. Suppose that \(\sequence {x_n}\) is not bounded. Then for all \(M > 0\) there exists \(N \in \N\) such that \(x_N \ge M\). Since \(\sequence {x_n}\) is increasing, we have \(x_n \ge M\) for all \(n \ge N\), so that \(x_n \to \infty\). If there exists an \(N\) such that \(x_N = \infty\), then \(x_n = \infty\) for \(n \ge N\), so we get \(x_n \to \infty\) in this case also.\\
+
+Suppose that \(\sequence {x_n}\) is decreasing. If \(\sequence {x_n}\) is bounded, then we again have convergence from basic real analysis. Suppose that \(\sequence {x_n}\) is not bounded. Then for all \(M > 0\) there exists \(N \in \N\) such that \(x_N \le -M\). Since \(\sequence {x_n}\) is decreasing, we have \(x_n \le -M\) for all \(n \ge N\), so that \(x_n \to -\infty\). If there exists an \(N\) such that \(x_N = -\infty\), then \(x_n = -\infty\) for \(n \ge N\) so we again get \(x_n \to -\infty\).\\
+\end{proof}
+
+We are now ready to show that \(\overline \R\) is sequentially compact.
+
+\begin{corollary}[Bolzano-Weierstrass Theorem for \(\overline \R\)]
+Let \(\sequence {x_n}\) be a sequence in \(\overline \R\). Then \(\sequence {x_n}\) has a convergent subsequence in \(\overline \R\). 
+\end{corollary} 
+
+\begin{proof}
+Suppose that there are infinitely many indices \(n\) such that \(x_n\) is infinite. Let \(\sequence {x_{n_j}}\) be the subsequence of infinite terms of \(\sequence {x_n}\). Then either \(x_{n_j} = \infty\) for infinitely many \(j\) or \(x_{n_j} = -\infty\) for infinitely many \(j\). Taking the subsequence of all such \(n_j\), \(\sequence {x_{n_{j_k}}}\), we have a constant infinite subsequence, which is convergent.\\
+
+Suppose that there are only finitely many (or no) indices \(n\) such that \(x_n\) is infinite. Let \(\sequence {x_{n_j}}\) be the subsequence of finite terms of \(\sequence {x_n}\). (or taking every term beyond the last infinite one) This has a convergent subsequence from the usual Bolzano-Weierstrass theorem. We hence recover a convergent subsequence of \(\sequence {x_n}\). 
+\end{proof}
+
+\section{Limits}
+
+As a closer, we investigate which rules of limits we have broken with this extension of \(\R\). Clearly we cannot have: 
+
+\[\lim_{n \mathop \to \infty} \paren {x_n + y_n} = \lim_{n \mathop \to \infty} x_n + \lim_{n \mathop \to \infty} y_n\]
+
+for all sequences \(\sequence {x_n}\). Indeed, the RHS need not be defined. Take \(x_n = n\) and \(y_n = -n\). Then the left-hand side is equal to \(0\), but the right hand side would have us trying to compute \(\infty - \infty\), which we left undefined. Worse, note that taking instead \(x_n = n + k\) and \(y_n = -n\), we have:
+
+\[\lim_{n \mathop \to \infty} \paren {x_n + y_n} = k\]
+
+which would have us set \(\infty - \infty\) to be any real number! However, where both the left and right hand side are well-defined, the equality does hold. The same cannot be said of products, we do not have: 
+
+\[\lim_{n \mathop \to \infty} \paren {x_n y_n} = \paren {\lim_{n \mathop \to \infty} x_n} \paren {\lim_{n \mathop \to \infty} y_n}\]
+
+Set \(x_n = n\) and \(y_n = 1/n\). Then \(x_n y_n = 1\), so the left-hand limit is equal to \(1\), while the expression on the right hand side is equal to \(0\). We do preserve two important properties. We still have: 
+
+\[\lim_{n \mathop \to \infty} \paren {x_n + k} = \lim_{n \mathop \to \infty} x_n + k\]
+
+provided the left and right hand sides are both well-defined. Similarly, we have: 
+
+\[\lim_{n \mathop \to \infty} \lambda x_n = \lambda \lim_{N \mathop \to \infty} x_n\]
+
+for all sequences \(\sequence {x_n}\) and \(\lambda \in \overline \R\). 
+\end{document}
